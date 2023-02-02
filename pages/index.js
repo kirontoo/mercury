@@ -9,9 +9,9 @@ export default function Home({products, bannerData}) {
         <h2>Best Selling Products</h2>
         <p>Speakers of many variations</p>
       </div>
-      <div className="products-container">
+      <ul className="products-container">
         {products?.map((product) => <Product key={product.id} product={product}/>)}
-      </div>
+      </ul>
       <FooterBanner banner={bannerData && bannerData[0]}/>
     </>
   );
