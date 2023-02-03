@@ -7,22 +7,24 @@ import {
 } from "react-icons/ai";
 import { Product } from "../../components";
 import { useState } from "react";
+import { useStateContext } from "../../context/StateContext";
 
 const ProductDetails = ({ product, products }) => {
   const { image, name, details, price } = product;
   const [index, setIndex] = useState(0);
+  const { onAdd, decreaseQty, increaseQty, qty } = useStateContext();
   return (
     <div>
-      <div class="product-detail-container">
+      <div className="product-detail-container">
         <div>
-          <div class="image-container">
+          <div className="image-container">
             <img
               src={urlFor(image && image[index])}
               alt={image[index].name}
               className="product-detail-image"
             />
           </div>
-          <div class="small-images-container">
+          <div className="small-images-container">
             {image?.map((item, i) => (
               <img
                 key={i}
@@ -36,9 +38,9 @@ const ProductDetails = ({ product, products }) => {
             ))}
           </div>
         </div>
-        <div class="product-detail-desc">
+        <div className="product-detail-desc">
           <h1>{name}</h1>
-          <div class="reviews">
+          <div className="reviews">
             <div>
               <AiFillStar></AiFillStar>
               <AiFillStar></AiFillStar>
@@ -50,34 +52,38 @@ const ProductDetails = ({ product, products }) => {
           </div>
           <h4>Details: </h4>
           <p>{details}</p>
-          <p class="price">${price}</p>
-          <div class="quantity">
+          <p className="price">${price}</p>
+          <div className="quantity">
             <h3>Quantity: </h3>
-            <p class="quantity-desc">
-              <span class="minus">
+            <p className="quantity-desc">
+              <span className="minus" onClick={decreaseQty}>
                 <AiOutlineMinus></AiOutlineMinus>
               </span>
-              <span class="num">0</span>
-              <span class="plus">
+              <span className="num">{qty}</span>
+              <span className="plus" onClick={increaseQty}>
                 <AiOutlinePlus></AiOutlinePlus>
               </span>
             </p>
           </div>
-          <div class="buttons">
-            <button class="add-to-cart" type="button">
+          <div className="buttons">
+            <button
+              className="add-to-cart"
+              type="button"
+              onClick={() => onAdd(product, qty)}
+            >
               Add to Cart
             </button>
-            <button class="buy-now" type="button">
+            <button className="buy-now" type="button">
               Buy Now
             </button>
           </div>
         </div>
       </div>
 
-      <div class="maylike-products-wrapper">
+      <div className="maylike-products-wrapper">
         <h2>You may also like</h2>
-        <div class="marquee">
-          <div class="maylike-products-container track">
+        <div className="marquee">
+          <div className="maylike-products-container track">
             {products.map((item) => (
               <Product key={item._id} product={item} />
             ))}
