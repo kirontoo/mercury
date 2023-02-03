@@ -10,7 +10,7 @@ export default function Home({products, bannerData}) {
         <p>Speakers of many variations</p>
       </div>
       <ul className="products-container">
-        {products?.map((product) => <Product key={product.id} product={product}/>)}
+        {products?.map((product) => <Product key={product._id} product={product}/>)}
       </ul>
       <FooterBanner banner={bannerData && bannerData[0]}/>
     </>
