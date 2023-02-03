@@ -1,13 +1,27 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 
-const Context = createContext();
+export const StateContext = createContext({
+  showCart: false,
+  cartItems: [],
+  totalPrice: 0,
+  totalQuantities: 0,
+  qty: 0,
+  increaseQty: () => null,
+  decreaseQty: () => null,
+  onAdd: (product, quantity) => null,
+  setShowCart: (showCart) => null,
+});
 
 export const useStateContext = () => {
-  return useContext(Context);
+  let context = useContext(StateContext);
+  if (context === undefined) {
+    throw new Error("useStateContext must be used within a StateProvider");
+  }
+  return context;
 };
 
-export const StateContext = ({ children }) => {
+const useStateProvider = () => {
   const [showCart, setShowCart] = useState(false);
   const [cartItems, setCartItems] = useState([]);
 
@@ -51,21 +65,22 @@ export const StateContext = ({ children }) => {
     setQty((prevQty) => (prevQty - 1 < 1 ? 1 : prevQty - 1));
   };
 
+  return {
+    showCart,
+    cartItems,
+    totalPrice,
+    totalQuantities,
+    qty,
+    increaseQty,
+    decreaseQty,
+    onAdd,
+    setShowCart,
+  };
+};
+
+export const StateProvider = ({ children }) => {
+  const value = useStateProvider();
   return (
-    <Context.Provider
-      value={{
-        showCart,
-        cartItems,
-        totalPrice,
-        totalQuantities,
-        qty,
-        increaseQty,
-        decreaseQty,
-        onAdd,
-        setShowCart,
-      }}
-    >
-      {children}
-    </Context.Provider>
+    <StateContext.Provider value={value}>{children}</StateContext.Provider>
   );
 };
