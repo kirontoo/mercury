@@ -11,6 +11,7 @@ export const StateContext = createContext({
   decreaseQty: () => null,
   onAdd: (product, quantity) => null,
   setShowCart: (showCart) => null,
+  toggleCartItemQuantity: (id, action) => null,
 });
 
 export const useStateContext = () => {
@@ -24,12 +25,12 @@ export const useStateContext = () => {
 const useStateProvider = () => {
   const [showCart, setShowCart] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-
   const [totalPrice, setTotalPrice] = useState(0);
-
   const [totalQuantities, setTotalQuantities] = useState(0);
-
   const [qty, setQty] = useState(1);
+
+  let foundProduct;
+  let index;
 
   const onAdd = (product, quantity) => {
     const checkProductInCart = cartItems.find(
@@ -54,6 +55,10 @@ const useStateProvider = () => {
       toast.success(`${qty} ${product.name} added to the cart.`);
     } else {
       product.quantity = quantity;
+      setTotalPrice(
+        (prevTotalPrice) => prevTotalPrice + product.price * quantity
+      );
+      setTotalQuantities((prevTotalQty) => prevTotalQty + quantity);
       setCartItems([...cartItems, { ...product }]);
     }
   };
@@ -61,8 +66,28 @@ const useStateProvider = () => {
   const increaseQty = () => {
     setQty((prevQty) => prevQty + 1);
   };
+
   const decreaseQty = () => {
     setQty((prevQty) => (prevQty - 1 < 1 ? 1 : prevQty - 1));
+  };
+
+  const toggleCartItemQuantity = (id, action) => {
+    foundProduct = cartItems.find((item) => id === item._id);
+    index = cartItems.findIndex((p) => p._id === id);
+    const newCartItems = cartItems.filter((item) => id !== item._id);
+    if (action === "inc") {
+      setCartItems([
+        ...newCartItems,
+        { ...foundProduct, quantity: foundProduct.quantity + 1 },
+      ]);
+      setTotalPrice((prev) => prev + foundProduct.price);
+    } else if (action === "dec") {
+      setCartItems([
+        ...newCartItems,
+        { ...foundProduct, quantity: foundProduct.quantity - 1 },
+      ]);
+      setTotalPrice((prev) => prev - foundProduct.price);
+    }
   };
 
   return {
@@ -75,6 +100,7 @@ const useStateProvider = () => {
     decreaseQty,
     onAdd,
     setShowCart,
+    toggleCartItemQuantity,
   };
 };
 
