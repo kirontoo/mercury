@@ -10,6 +10,7 @@ export const StateContext = createContext({
   increaseQty: () => null,
   decreaseQty: () => null,
   onAdd: (product, quantity) => null,
+  onRemove: (product) => null,
   setShowCart: (showCart) => null,
   toggleCartItemQuantity: (id, action) => null,
 });
@@ -71,6 +72,14 @@ const useStateProvider = () => {
     setQty((prevQty) => (prevQty - 1 < 1 ? 1 : prevQty - 1));
   };
 
+  const onRemove = (product) => {
+    foundProduct = cartItems.find((item) => item._id === product._id);
+    const newCartItems = cartItems.filter((item) => item._id !== product._id);
+    setTotalPrice((prev) => prev - foundProduct.price * foundProduct.quantity);
+    setTotalQuantities((prev) => prev - foundProduct.quantity);
+    setCartItems(newCartItems);
+  };
+
   const toggleCartItemQuantity = (id, action) => {
     foundProduct = cartItems.find((item) => id === item._id);
     index = cartItems.findIndex((p) => p._id === id);
@@ -99,6 +108,7 @@ const useStateProvider = () => {
     increaseQty,
     decreaseQty,
     onAdd,
+    onRemove,
     setShowCart,
     toggleCartItemQuantity,
   };
