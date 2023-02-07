@@ -12,6 +12,9 @@ export const StateContext = createContext({
   onAdd: (product, quantity) => null,
   onRemove: (product) => null,
   setShowCart: (showCart) => null,
+  setCartItems: (items) => null,
+  setTotalPrice: () => null,
+  setTotalQuantities: () => null,
   toggleCartItemQuantity: (id, action) => null,
 });
 
@@ -81,6 +84,7 @@ const useStateProvider = () => {
   };
 
   const toggleCartItemQuantity = (id, action) => {
+    // TODO: fix items going out of order
     foundProduct = cartItems.find((item) => id === item._id);
     index = cartItems.findIndex((p) => p._id === id);
     const newCartItems = cartItems.filter((item) => id !== item._id);
@@ -111,6 +115,9 @@ const useStateProvider = () => {
     onRemove,
     setShowCart,
     toggleCartItemQuantity,
+    setCartItems,
+    setTotalPrice,
+    setTotalQuantities
   };
 };
 
