@@ -14,13 +14,32 @@ export default async function handler(req, res) {
           { shipping_rate: "shr_1MYelZJ1oU9UjC7Kg1uGMB7O" },
           { shipping_rate: "shr_1MYemSJ1oU9UjC7KTV9mVZDC" },
         ],
-        line_items: [
-          {
-            // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-            price: "{{PRICE_ID}}",
-            quantity: 1,
-          },
-        ],
+        line_items: req.body.cartItems.map((i) => {
+          const img = i.image[0].asset._ref;
+          const newImg = img
+            .replace(
+              "image-",
+              "https://cdn.sanity.io/images/yowjxb1m/production/"
+            )
+            .replace("-webp", ".webp")
+            .replace("-jpeg", ".jpg");
+
+          return {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: i.name,
+                images: [newImg],
+              },
+              unit_amount: i.price * 100,
+            },
+            adjustable_quantity: {
+              enabled: true,
+              minimum: 1,
+            },
+            quantity: i.quantity
+          }
+        }),
         mode: "payment",
         success_url: `${req.headers.origin}/?success=true`,
         cancel_url: `${req.headers.origin}/?canceled=true`,
@@ -28,7 +47,7 @@ export default async function handler(req, res) {
 
       // Create Checkout Sessions from body params.
       const session = await stripe.checkout.sessions.create(params);
-      res.redirect(303, session.url);
+      res.status(200).json(session);
     } catch (err) {
       res.status(err.statusCode || 500).json(err.message);
     }
