@@ -1,6 +1,5 @@
 import { Cart } from "./";
 import { useStateContext } from "../context/StateContext";
-import { styled, alpha } from "@mui/material/styles";
 
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";

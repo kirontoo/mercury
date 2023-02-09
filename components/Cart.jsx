@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import toast from "react-hot-toast";
 import { useStateContext } from "../context/StateContext";
 import { urlFor } from "../lib/client";
