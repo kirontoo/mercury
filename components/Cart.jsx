@@ -1,19 +1,18 @@
 import { useRef } from "react";
-import Link from "next/link";
-import {
-  AiOutlineMinus,
-  AiOutlinePlus,
-  AiOutlineLeft,
-  AiOutlineShopping,
-} from "react-icons/ai";
-import { TiDeleteOutline } from "react-icons/ti";
 import toast from "react-hot-toast";
 import { useStateContext } from "../context/StateContext";
 import { urlFor } from "../lib/client";
 import getStripe from "../lib/getStripe";
 
-const Cart = () => {
-  const cartRef = useRef();
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+
+const ShoppingCart = () => {
   const {
     totalPrice,
     totalQuantities,
@@ -44,90 +43,112 @@ const Cart = () => {
   };
 
   return (
-    <div className="cart-wrapper" ref={cartRef}>
-      <div className="cart-container">
-        <button className="cart-heading" onClick={() => setShowCart(false)}>
-          <AiOutlineLeft></AiOutlineLeft>
-          <span className="heading">Your cart</span>
-          <span className="cart-num-items">({totalQuantities} items)</span>
-        </button>
+    <Stack
+      sx={{
+        padding: "1em",
+        justifyContent: "space-between",
+        height: "100vh",
+        maxHeight: "100vh",
+      }}
+      spacing={1}
+    >
+      <Stack spacing={2}>
+        <Button
+          onClick={() => setShowCart(false)}
+          sx={{ justifyContent: "flex-start", width: "max-content" }}
+        >
+          <KeyboardArrowLeftIcon />
+          <Typography sx={{ color: "black" }} mr={"1em"}>
+            Your cart
+          </Typography>
+          <Typography>({totalQuantities} items)</Typography>
+        </Button>
 
         {cartItems.length < 1 && (
-          <div className="empty-cart">
-            <AiOutlineShopping size={150} />
-            <h3>Your shopping bag is empty</h3>
-            <Link href="/">
-              <button onClick={() => setShowCart(false)} className="btn">
-                Continue shopping
-              </button>
-            </Link>
-          </div>
+          <Stack
+            spacing={1}
+            sx={{ justifyContent: "center", alignItems: "center" }}
+          >
+            <ShoppingBagOutlinedIcon sx={{ fontSize: "10em" }} />
+            <Typography>Your shopping bag is empty</Typography>
+            <Button
+              variant="contained"
+              href="/"
+              onClick={() => setShowCart(false)}
+            >
+              Continue shopping
+            </Button>
+          </Stack>
         )}
 
-        <div className="product-container">
-          {cartItems.length > 0 &&
-            cartItems.map((item, i) => (
-              <div className="product" key={item._id}>
+        {cartItems.length > 0 &&
+          cartItems.map((item) => {
+            return (
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{ width: "100%" }}
+                key={item._id}
+              >
                 <img
                   src={urlFor(item?.image[0])}
-                  alt=""
+                  alt={item.name}
                   className="cart-product-image"
                 />
-                <div className="item-desc">
-                  <div className="flex top">
-                    <h5>{item.name}</h5>
-                    <h4>${item.price}</h4>
-                  </div>
-                  <div className="flex bottom">
-                    <div>
-                      <p className="quantity-desc">
-                        <span
-                          className="minus"
-                          onClick={() =>
-                            toggleCartItemQuantity(item._id, "dec")
-                          }
-                        >
-                          <AiOutlineMinus></AiOutlineMinus>
-                        </span>
-                        <span className="num">{item.quantity}</span>
-                        <span
-                          className="plus"
-                          onClick={() =>
-                            toggleCartItemQuantity(item._id, "inc")
-                          }
-                        >
-                          <AiOutlinePlus></AiOutlinePlus>
-                        </span>
-                      </p>
-                    </div>
-                    <button
-                      className="remove-item"
-                      onClick={() => onRemove(item)}
-                    >
-                      <TiDeleteOutline />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
 
-          {cartItems.length >= 1 && (
-            <div className="cart-bottom">
-              <div className="total">
-                <h3>Subtotal</h3>
-                <h3>${totalPrice}</h3>
-              </div>
-              <div className="btn-container">
-                <button className="btn" onClick={handleCheckout}>
-                  Pay with Stripe
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+                <Stack sx={{ justifyContent: "space-between" }}>
+                  <Typography
+                    variant="body1"
+                    component="span"
+                    fontWeight="bold"
+                  >
+                    {item.name}
+                  </Typography>
+                  <Typography component="span">${item.price}</Typography>
+                  <Stack direction="row">
+                    <Button
+                      size="small"
+                      onClick={() => toggleCartItemQuantity(item._id, "dec")}
+                    >
+                      <RemoveIcon />
+                    </Button>
+                    <Typography py="0.5em" px="1em">
+                      {item.quantity}
+                    </Typography>
+                    <Button
+                      size="small"
+                      onClick={() => toggleCartItemQuantity(item._id, "inc")}
+                      sx={{ color: "green" }}
+                    >
+                      <AddIcon />
+                    </Button>
+                  </Stack>
+                  <Button
+                    sx={{ width: "max-content", justifyContent: "flex-start" }}
+                    onClick={() => onRemove(item)}
+                  >
+                    Remove from cart
+                  </Button>
+                </Stack>
+              </Stack>
+            );
+          })}
+      </Stack>
+      <Stack spacing={2}>
+        <Stack direction="row" sx={{ justifyContent: "space-between" }}>
+          <Typography component="span" variant="h6" fontWeight="bold">
+            Subtotal
+          </Typography>
+          <Typography component="span" variant="h6" fontWeight="bold">
+            ${totalPrice}
+          </Typography>
+        </Stack>
+        <Button onClick={handleCheckout} variant="contained">
+          Pay with Stripe
+        </Button>
+      </Stack>
+    </Stack>
   );
 };
 
-export default Cart;
+export default ShoppingCart;
