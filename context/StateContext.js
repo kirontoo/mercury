@@ -94,12 +94,14 @@ const useStateProvider = () => {
         { ...foundProduct, quantity: foundProduct.quantity + 1 },
       ]);
       setTotalPrice((prev) => prev + foundProduct.price);
+      setTotalQuantities((prev) => prev + 1);
     } else if (action === "dec") {
       setCartItems([
         ...newCartItems,
         { ...foundProduct, quantity: foundProduct.quantity - 1 },
       ]);
       setTotalPrice((prev) => prev - foundProduct.price);
+      setTotalQuantities((prev) => prev - 1);
     }
   };
 
