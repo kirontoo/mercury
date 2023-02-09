@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AiOutlineShopping } from "react-icons/ai";
 import { Cart } from "./";
+import { ShoppingCart } from "./";
 import { useStateContext } from "../context/StateContext";
 import { styled, alpha } from "@mui/material/styles";
 
@@ -134,12 +135,8 @@ const Navbar = () => {
       </Container>
 
       <Drawer anchor="right" open={showCart} onClose={() => setShowCart(false)}>
-        <Box
-          role="presentation"
-          onClick={() => setShowCart(false)}
-          onKeyDown={() => setShowCart(false)}
-        >
-          <Cart />
+        <Box role="presentation">
+          <ShoppingCart />
         </Box>
       </Drawer>
     </AppBar>
