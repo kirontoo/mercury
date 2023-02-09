@@ -1,7 +1,8 @@
 import { HeroBanner, Product, FooterBanner } from "../components";
+import Stack from "@mui/material/Stack";
 import { client } from "../lib/client";
 
-export default function Home({products, bannerData}) {
+export default function Home({ products, bannerData }) {
   return (
     <>
       <HeroBanner banner={bannerData.length && bannerData[0]} />
@@ -9,10 +10,19 @@ export default function Home({products, bannerData}) {
         <h2>Best Selling Products</h2>
         <p>Speakers of many variations</p>
       </div>
-      <ul className="products-container">
-        {products?.map((product) => <Product key={product._id} product={product}/>)}
-      </ul>
-      <FooterBanner banner={bannerData && bannerData[0]}/>
+      <Stack
+        direction={{ xs: "column",  md: "row"}}
+        spacing={2}
+        component="ul"
+        justifyContent="center"
+        alignItems="center"
+        mt="2em"
+      >
+        {products?.map((product) => (
+          <Product key={product._id} product={product} />
+        ))}
+      </Stack>
+      <FooterBanner banner={bannerData && bannerData[0]} />
     </>
   );
 }

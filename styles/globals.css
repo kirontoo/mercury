@@ -24,6 +24,10 @@ a {
   height: auto;
 }
 
+.product-item {
+  list-style: none;
+}
+
 
 
 

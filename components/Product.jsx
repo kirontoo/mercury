@@ -1,20 +1,30 @@
-import React from "react";
-import Link from "next/link";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
 import { urlFor } from "../lib/client";
+import Link from "next/link";
 
-const Product = ({ product: {image, name, slug, price} }) => {
-  // TODO: error handling for the values
+const ProductItem = ({ product: { image, name, slug, price } }) => {
   return (
-    <li>
+    <li class="product-item">
       <Link href={`/product/${slug.current}`}>
-        <div className="product-card">
-          <img src={urlFor(image && image[0])} alt="" height={250} width={250} className="product-image" />
-          <p className="product-name">{name}</p>
-          <p className="product-price">${price}</p>
-        </div>
+        <Card sx={{ width: "min-content" }}>
+          <CardMedia
+            sx={{ height: 250, width: 250, bgcolor: "grey.300" }}
+            image={urlFor(image && image[0])}
+            title="green iguana"
+          />
+          <CardContent sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography component="span">{name}</Typography>
+            <Typography color="text.primary" fontWeight="bold" component="span">
+              ${price}
+            </Typography>
+          </CardContent>
+        </Card>
       </Link>
     </li>
   );
 };
 
-export default Product;
+export default ProductItem;
