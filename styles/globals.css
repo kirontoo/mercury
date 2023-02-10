@@ -16,7 +16,6 @@ a {
   text-decoration: none;
 }
 
-
 .cart-product-image {
   border-radius: 15px;
   background-color: #ebebeb;
@@ -27,6 +26,24 @@ a {
 .product-item {
   list-style: none;
 }
+
+.hero-banner-image {
+  position: absolute;
+  top: 0%;
+  right: 20%;
+  width: 450px;
+  height: 450px;
+}
+
+@media screen and (max-width: 800px) {
+  .hero-banner-image {
+    width: 77%;
+    height: 62%;
+    top: -2%;
+    right: -6%;
+  }
+}
+
 
 
 
@@ -179,13 +196,6 @@ span.text-red {
   font-size: 10em;
   margin-left: -20px;
   text-transform: uppercase;
-}
-.hero-banner-image {
-  position: absolute;
-  top: 0%;
-  right: 20%;
-  width: 450px;
-  height: 450px;
 }
 
 .desc {
