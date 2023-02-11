@@ -11,7 +11,7 @@ const HeroBanner = ({
 }) => {
   return (
     <Stack
-      borderRadius="0.5em"
+      borderRadius="1em"
       backgroundColor="grey.300"
       paddingY="5em"
       paddingX="3em"
