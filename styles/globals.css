@@ -36,6 +36,14 @@ a {
   list-style: none;
 }
 
+.zoom-animation {
+  transition: transform 0.2s;
+}
+
+.zoom-animation:hover {
+  transform: scale(1.05);
+}
+
 .hero-banner-image {
   position: absolute;
   top: 0%;
@@ -66,11 +74,6 @@ a {
     height: 56%;
   }
 }
-
-
-
-
-
 
 .navbar-container {
   display: flex;
