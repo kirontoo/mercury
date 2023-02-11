@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import { urlFor } from "../lib/client";
 import Link from "next/link";
 
-const ProductItem = ({ product: { image, name, slug, price } }) => {
+const Product = ({ product: { image, name, slug, price } }) => {
   return (
     <li class="product-item">
       <Link href={`/product/${slug.current}`}>
@@ -27,4 +27,4 @@ const ProductItem = ({ product: { image, name, slug, price } }) => {
   );
 };
 
-export default ProductItem;
+export default Product;
