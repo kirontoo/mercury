@@ -14,8 +14,16 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Drawer from "@mui/material/Drawer";
+import Badge from "@mui/material/Badge";
+import { styled } from "@mui/material/styles";
 
 const pages = ["Products"];
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    border: `1px solid ${theme.palette.background.paper}`,
+  },
+}));
 
 const Navbar = () => {
   const { showCart, setShowCart, totalQuantities } = useStateContext();
@@ -123,8 +131,9 @@ const Navbar = () => {
               sx={{ color: "white" }}
               onClick={() => setShowCart(true)}
             >
-              <ShoppingCartIcon />
-              {totalQuantities}
+              <StyledBadge badgeContent={totalQuantities} color="primary">
+                <ShoppingCartIcon />
+              </StyledBadge>
             </IconButton>
           </Box>
         </Toolbar>
