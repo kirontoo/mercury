@@ -1,13 +1,15 @@
 import { client, urlFor } from "../../lib/client";
-import {
-  AiOutlinePlus,
-  AiOutlineStar,
-  AiFillStar,
-  AiOutlineMinus,
-} from "react-icons/ai";
 import { Product } from "../../components";
 import { useState } from "react";
 import { useStateContext } from "../../context/StateContext";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Rating from "@mui/material/Rating";
+import Grid from "@mui/material/Grid";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 const ProductDetails = ({ product, products }) => {
   const { image, name, details, price } = product;
@@ -21,17 +23,17 @@ const ProductDetails = ({ product, products }) => {
   };
 
   return (
-    <div>
-      <div className="product-detail-container">
-        <div>
-          <div className="image-container">
+    <Stack spacing={4} my="2em">
+      <Grid container padding="1em" spacing={2}>
+        <Grid item xs={12} md={4}>
+          <Box>
             <img
               src={urlFor(image && image[index])}
               alt={image[index].name}
               className="product-detail-image"
             />
-          </div>
-          <div className="small-images-container">
+          </Box>
+          <Stack direction="row" spacing={1}>
             {image?.map((item, i) => (
               <img
                 key={i}
@@ -43,61 +45,82 @@ const ProductDetails = ({ product, products }) => {
                 alt={item.name}
               />
             ))}
-          </div>
-        </div>
-        <div className="product-detail-desc">
-          <h1>{name}</h1>
-          <div className="reviews">
-            <div>
-              <AiFillStar></AiFillStar>
-              <AiFillStar></AiFillStar>
-              <AiFillStar></AiFillStar>
-              <AiFillStar></AiFillStar>
-              <AiOutlineStar></AiOutlineStar>
-            </div>
-            <p>(20)</p>
-          </div>
-          <h4>Details: </h4>
-          <p>{details}</p>
-          <p className="price">${price}</p>
-          <div className="quantity">
-            <h3>Quantity: </h3>
-            <p className="quantity-desc">
-              <span className="minus" onClick={decreaseQty}>
-                <AiOutlineMinus></AiOutlineMinus>
-              </span>
-              <span className="num">{qty}</span>
-              <span className="plus" onClick={increaseQty}>
-                <AiOutlinePlus></AiOutlinePlus>
-              </span>
-            </p>
-          </div>
-          <div className="buttons">
-            <button
-              className="add-to-cart"
-              type="button"
-              onClick={() => onAdd(product, qty)}
+          </Stack>
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <Stack spacing={1}>
+            <Typography variant="h4" component="h1">
+              {name}
+            </Typography>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Rating name="read-only" value={4.5} precision={0.5} readOnly />
+              <Typography variant="span">(20)</Typography>
+            </Stack>
+            <Typography fontWeight="bold">Details:</Typography>
+            <Typography>{details}</Typography>
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              color="primary"
+              component="p"
             >
-              Add to Cart
-            </button>
-            <button className="buy-now" type="button" onClick={handleBuyNow}>
-              Buy Now
-            </button>
-          </div>
-        </div>
-      </div>
+              ${price}
+            </Typography>
 
-      <div className="maylike-products-wrapper">
-        <h2>You may also like</h2>
-        <div className="marquee">
-          <div className="maylike-products-container track">
-            {products.map((item) => (
-              <Product key={item._id} product={item} />
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <Typography fontWeight="bold">Quantity:</Typography>
+              <Stack direction="row">
+                <Button size="small" onClick={decreaseQty} variant="outlined">
+                  <RemoveIcon />
+                </Button>
+                <Typography py="0.5em" px="1em">
+                  {qty}
+                </Typography>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={increaseQty}
+                  sx={{ color: "green" }}
+                >
+                  <AddIcon />
+                </Button>
+              </Stack>
+            </Stack>
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              spacing={{ xs: 2, md: 4 }}
+              py="2em"
+            >
+              <Button
+                size="large"
+                variant="outlined"
+                onClick={() => onAdd(product, qty)}
+              >
+                Add to Cart
+              </Button>
+              <Button size="large" variant="contained" onClick={handleBuyNow}>
+                Buy Now
+              </Button>
+            </Stack>
+          </Stack>
+        </Grid>
+      </Grid>
+
+      <Typography variant="h4" component="h2" textAlign="center">
+        You may also like
+      </Typography>
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+        width="100%"
+      >
+        {products.map((item) => (
+          <Product key={item._id} product={item} />
+        ))}
+      </Stack>
+    </Stack>
   );
 };
 
