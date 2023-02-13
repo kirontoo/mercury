@@ -19,7 +19,7 @@ const Footer = () => {
       }}
     >
       <Typography variant="h6" component="small" color={blueGrey[800]}>
-        2023 Mercury Headphones All rights reserved
+        2023 Mercury All rights reserved
       </Typography>
       <Box>
         <Link href="https://example.com" style={{ marginRight: "0.5em" }}>
