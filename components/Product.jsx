@@ -8,7 +8,7 @@ import Link from "next/link";
 const Product = ({ product: { image, name, slug, price } }) => {
   return (
     <li class="product-item zoom-animation">
-      <Link href={`/product/${slug.current}`}>
+      <Link href={`/products/${slug.current}`}>
         <Card sx={{ width: "min-content" }}>
           <CardMedia
             sx={{ height: 250, width: 250, bgcolor: "grey.300" }}
