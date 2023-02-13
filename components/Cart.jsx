@@ -2,6 +2,7 @@ import toast from "react-hot-toast";
 import { useStateContext } from "../context/StateContext";
 import { urlFor } from "../lib/client";
 import getStripe from "../lib/getStripe";
+import Link from 'next/link';
 
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -72,8 +73,9 @@ const ShoppingCart = () => {
             <Typography>Your shopping bag is empty</Typography>
             <Button
               variant="contained"
-              href="/"
+              href="/products"
               onClick={() => setShowCart(false)}
+              component={Link}
             >
               Continue shopping
             </Button>
