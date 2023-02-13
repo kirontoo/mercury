@@ -1,11 +1,12 @@
 import React from "react";
 
-import { AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { blueGrey } from "@mui/material/colors";
 import Link from "next/link";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
 
 const Footer = () => {
   return (
@@ -21,11 +22,11 @@ const Footer = () => {
         2023 Mercury Headphones All rights reserved
       </Typography>
       <Box>
-        <Link href="https://example.com">
-          <AiFillInstagram fontSize="2em"></AiFillInstagram>
+        <Link href="https://example.com" style={{ marginRight: "0.5em" }}>
+          <InstagramIcon></InstagramIcon>
         </Link>
         <Link href="https://example.com">
-          <AiOutlineTwitter fontSize="2em"></AiOutlineTwitter>
+          <TwitterIcon></TwitterIcon>
         </Link>
       </Box>
     </Stack>
