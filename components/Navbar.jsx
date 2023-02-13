@@ -1,5 +1,6 @@
 import { Cart } from "./";
 import { useStateContext } from "../context/StateContext";
+import Link from "next/link";
 
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -17,7 +18,12 @@ import Drawer from "@mui/material/Drawer";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 
-const pages = ["Products"];
+const pages = [
+  {
+    name: "products",
+    route: "/products",
+  },
+];
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -89,8 +95,13 @@ const Navbar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem
+                  key={page.name}
+                  onClick={handleCloseNavMenu}
+                  href={page.route}
+                  component={Link}
+                >
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -116,11 +127,13 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.name}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
+                component={Link}
+                href={page.route}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
