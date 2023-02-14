@@ -41,7 +41,7 @@ const HeroBanner = ({
       </Typography>
       <img className="hero-banner-image" src={urlFor(image)} alt={product} />
       <Box>
-        <Button variant="contained" href="/" component={Link} color="primary">
+        <Button variant="contained" href="/products" component={Link} color="primary">
           Shop Now
         </Button>
 
