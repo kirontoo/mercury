@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 
 import { useStateContext } from "../context/StateContext";
-import { runStarsConffeti } from "../lib/utils";
+import { removeLocalStorageCart, runStarsConffeti } from "../lib/utils";
 
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -13,7 +13,7 @@ import { default as MUILink } from "@mui/material/Link";
 const Success = () => {
   const { setCartItems, setTotalPrice, setTotalQuantities } = useStateContext();
   useEffect(() => {
-    localStorage.clear();
+    removeLocalStorageCart();
     setTotalPrice();
     setCartItems(0);
     setTotalQuantities(0);

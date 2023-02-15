@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
+import { getLocalStorageCart, setLocalStorageCart } from "../lib/utils";
 
 export const StateContext = createContext({
   showCart: false,
@@ -33,8 +34,17 @@ const useStateProvider = () => {
   const [totalQuantities, setTotalQuantities] = useState(0);
   const [qty, setQty] = useState(1);
 
-  let foundProduct;
-  let index;
+  useEffect(() => {
+    const storedCart = getLocalStorageCart();
+    setCartItems(storedCart);
+    const qty = storedCart.reduce((total, p) => p.quantity + total, 0);
+    const cost = storedCart.reduce(
+      (total, p) => p.price * p.quantity + total,
+      0
+    );
+    setTotalQuantities(qty);
+    setTotalPrice(cost);
+  }, []);
 
   const onAdd = (product, quantity) => {
     const checkProductInCart = cartItems.find(
@@ -56,6 +66,7 @@ const useStateProvider = () => {
         }
       });
       setCartItems(updatedCartItems);
+      setLocalStorageCart(updatedCartItems);
       toast.success(`${qty} ${product.name} added to the cart.`);
     } else {
       product.quantity = quantity;
@@ -63,7 +74,9 @@ const useStateProvider = () => {
         (prevTotalPrice) => prevTotalPrice + product.price * quantity
       );
       setTotalQuantities((prevTotalQty) => prevTotalQty + quantity);
-      setCartItems([...cartItems, { ...product }]);
+      const updatedCart = [...cartItems, { ...product }];
+      setCartItems(updatedCart);
+      setLocalStorageCart(updatedCart);
     }
   };
 
@@ -76,30 +89,36 @@ const useStateProvider = () => {
   };
 
   const onRemove = (product) => {
-    foundProduct = cartItems.find((item) => item._id === product._id);
+    let foundProduct = cartItems.find((item) => item._id === product._id);
     const newCartItems = cartItems.filter((item) => item._id !== product._id);
     setTotalPrice((prev) => prev - foundProduct.price * foundProduct.quantity);
     setTotalQuantities((prev) => prev - foundProduct.quantity);
     setCartItems(newCartItems);
+    setLocalStorageCart(newCartItems);
   };
 
   const toggleCartItemQuantity = (id, action) => {
     // TODO: fix items going out of order
-    foundProduct = cartItems.find((item) => id === item._id);
-    index = cartItems.findIndex((p) => p._id === id);
+    let foundProduct = cartItems.find((item) => id === item._id);
+    let index = cartItems.findIndex((p) => p._id === id);
     const newCartItems = cartItems.filter((item) => id !== item._id);
+
     if (action === "inc") {
-      setCartItems([
+      const updatedCart = [
         ...newCartItems,
         { ...foundProduct, quantity: foundProduct.quantity + 1 },
-      ]);
+      ];
+      setCartItems(updatedCart);
+      setLocalStorageCart(updatedCart);
       setTotalPrice((prev) => prev + foundProduct.price);
       setTotalQuantities((prev) => prev + 1);
     } else if (action === "dec") {
-      setCartItems([
+      const updatedCart = [
         ...newCartItems,
         { ...foundProduct, quantity: foundProduct.quantity - 1 },
-      ]);
+      ];
+      setCartItems(updatedCart);
+      setLocalStorageCart(updatedCart);
       setTotalPrice((prev) => prev - foundProduct.price);
       setTotalQuantities((prev) => prev - 1);
     }
@@ -119,7 +138,7 @@ const useStateProvider = () => {
     toggleCartItemQuantity,
     setCartItems,
     setTotalPrice,
-    setTotalQuantities
+    setTotalQuantities,
   };
 };
 
