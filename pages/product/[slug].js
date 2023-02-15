@@ -12,7 +12,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 const ProductDetails = ({ product, products }) => {
-  const { image, name, details, price } = product;
+  const { image, name, details, price, rating } = product;
   const [index, setIndex] = useState(0);
   const { onAdd, decreaseQty, increaseQty, qty, setShowCart } =
     useStateContext();
@@ -53,7 +53,7 @@ const ProductDetails = ({ product, products }) => {
               {name}
             </Typography>
             <Stack direction="row" spacing={1} alignItems="center">
-              <Rating name="read-only" value={4.5} precision={0.5} readOnly />
+              <Rating name="read-only" value={rating} precision={0.1} readOnly />
               <Typography variant="span">(20)</Typography>
             </Stack>
             <Typography fontWeight="bold">Details:</Typography>

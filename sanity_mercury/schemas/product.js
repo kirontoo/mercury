@@ -36,5 +36,10 @@ export default {
       title: 'Details',
       type: 'string',
     },
+    {
+      name: 'rating',
+      title: 'rating',
+      type: 'number'
+    }
   ],
 }
