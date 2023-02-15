@@ -2,7 +2,7 @@ import toast from "react-hot-toast";
 import { useStateContext } from "../context/StateContext";
 import { urlFor } from "../lib/client";
 import getStripe from "../lib/getStripe";
-import Link from 'next/link';
+import Link from "next/link";
 
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -100,8 +100,10 @@ const ShoppingCart = () => {
                 <Stack sx={{ justifyContent: "space-between" }}>
                   <Typography
                     variant="body1"
-                    component="span"
+                    component={Link}
                     fontWeight="bold"
+                    href={`/products/${item.slug.current}`}
+                    color="primary"
                   >
                     {item.name}
                   </Typography>
