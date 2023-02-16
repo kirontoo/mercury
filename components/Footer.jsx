@@ -13,7 +13,7 @@ const Footer = () => {
     <Stack
       spacing={2}
       sx={{
-        padding: "3em 5em",
+        margin: { xs: "3em 0", md: "3em 5em"},
         justifyContent: "center",
         alignItems: "center",
       }}
