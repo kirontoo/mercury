@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { formatPrice, getLocalStorageCart, setLocalStorageCart } from "../lib/utils";
+import { getLocalStorageCart, setLocalStorageCart } from "../lib/utils";
 
 export const StateContext = createContext({
   showCart: false,
@@ -43,7 +43,7 @@ const useStateProvider = () => {
       0
     );
     setTotalQuantities(qty);
-    setTotalPrice(formatPrice(cost));
+    setTotalPrice(cost);
   }, []);
 
   const onAdd = (product, quantity) => {
@@ -54,7 +54,7 @@ const useStateProvider = () => {
     // if item already exists in the cart, update the quantity and total price
     if (checkProductInCart) {
       setTotalPrice((prevTotalPrice) =>
-        formatPrice(prevTotalPrice + product.price * quantity)
+        prevTotalPrice + product.price * quantity
       );
       setTotalQuantities((prevTotalQty) => prevTotalQty + quantity);
       const updatedCartItems = cartItems.map((cartProduct) => {
@@ -71,7 +71,7 @@ const useStateProvider = () => {
     } else {
       product.quantity = quantity;
       setTotalPrice((prevTotalPrice) =>
-        formatPrice(prevTotalPrice + product.price * quantity)
+        prevTotalPrice + product.price * quantity
       );
       setTotalQuantities((prevTotalQty) => prevTotalQty + quantity);
       const updatedCart = [...cartItems, { ...product }];
@@ -92,7 +92,7 @@ const useStateProvider = () => {
     let foundProduct = cartItems.find((item) => item._id === product._id);
     const newCartItems = cartItems.filter((item) => item._id !== product._id);
     setTotalPrice((prev) =>
-      formatPrice(prev - foundProduct.price * foundProduct.quantity)
+      prev - foundProduct.price * foundProduct.quantity
     );
     setTotalQuantities((prev) => prev - foundProduct.quantity);
     setCartItems(newCartItems);
@@ -112,7 +112,7 @@ const useStateProvider = () => {
       ];
       setCartItems(updatedCart);
       setLocalStorageCart(updatedCart);
-      setTotalPrice((prev) => formatPrice(prev + foundProduct.price));
+      setTotalPrice((prev) => prev + foundProduct.price);
       setTotalQuantities((prev) => prev + 1);
     } else if (action === "dec") {
       const updatedCart = [
@@ -121,7 +121,7 @@ const useStateProvider = () => {
       ];
       setCartItems(updatedCart);
       setLocalStorageCart(updatedCart);
-      setTotalPrice((prev) => formatPrice(prev - foundProduct.price));
+      setTotalPrice((prev) => prev - foundProduct.price);
       setTotalQuantities((prev) => prev - 1);
     }
   };
