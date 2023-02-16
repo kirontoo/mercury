@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { formatPrice } from "../lib/utils";
 
 const ShoppingCart = () => {
   const {
@@ -149,7 +150,7 @@ const ShoppingCart = () => {
             Subtotal
           </Typography>
           <Typography component="span" variant="h6" fontWeight="bold">
-            ${totalPrice}
+            ${formatPrice(totalPrice)}
           </Typography>
         </Stack>
         <Button onClick={handleCheckout} variant="contained">
