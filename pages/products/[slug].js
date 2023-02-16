@@ -1,6 +1,7 @@
 import { client, urlFor } from "../../lib/client";
+import { useRouter } from "next/router";
 import { Product, QuantityInput } from "../../components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useStateContext } from "../../context/StateContext";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -132,6 +133,15 @@ export const getStaticProps = async ({ params: { slug } }) => {
   const productsQuery = '*[_type == "product"]';
   const product = await client.fetch(query);
   const products = await client.fetch(productsQuery);
+
+  if (!product) {
+    return {
+      redirect: {
+        destination: "/404",
+        permanent: false,
+      },
+    };
+  }
 
   return { props: { products, product } };
 };
