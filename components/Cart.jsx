@@ -3,7 +3,7 @@ import { useStateContext } from "../context/StateContext";
 import { urlFor } from "../lib/client";
 import getStripe from "../lib/getStripe";
 import Link from "next/link";
-
+import { QuantityInput } from ".";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import Typography from "@mui/material/Typography";
@@ -133,6 +133,12 @@ const ShoppingCart = () => {
                     Remove from cart
                   </Button>
                 </Stack>
+                <QuantityInput
+                  onDecreaseQty={() => toggleCartItemQuantity(item._id, "dec")}
+                  onIncreaseQty={() => toggleCartItemQuantity(item._id, "inc")}
+                >
+                  {item.quantity}
+                </QuantityInput>
               </Stack>
             );
           })}

@@ -1,5 +1,5 @@
 import { client, urlFor } from "../../lib/client";
-import { Product } from "../../components";
+import { Product, QuantityInput } from "../../components";
 import { useState } from "react";
 import { useStateContext } from "../../context/StateContext";
 import Box from "@mui/material/Box";
@@ -8,8 +8,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import Grid from "@mui/material/Grid";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 
 const ProductDetails = ({ product, products }) => {
   const { image, name, details, price } = product;
@@ -69,22 +67,12 @@ const ProductDetails = ({ product, products }) => {
 
             <Stack direction="row" alignItems="center" spacing={2}>
               <Typography fontWeight="bold">Quantity:</Typography>
-              <Stack direction="row">
-                <Button size="small" onClick={decreaseQty} variant="outlined">
-                  <RemoveIcon />
-                </Button>
-                <Typography py="0.5em" px="1em">
-                  {qty}
-                </Typography>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  onClick={increaseQty}
-                  sx={{ color: "green" }}
-                >
-                  <AddIcon />
-                </Button>
-              </Stack>
+              <QuantityInput
+                onIncreaseQty={increaseQty}
+                onDecreaseQty={decreaseQty}
+              >
+                {qty}
+              </QuantityInput>
             </Stack>
             <Stack
               direction={{ xs: "column", md: "row" }}
