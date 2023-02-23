@@ -109,24 +109,16 @@ const ShoppingCart = () => {
                     {item.name}
                   </Typography>
                   <Typography component="span">${item.price}</Typography>
-                  <Stack direction="row">
-                    <Button
-                      size="small"
-                      onClick={() => toggleCartItemQuantity(item._id, "dec")}
-                    >
-                      <RemoveIcon />
-                    </Button>
-                    <Typography py="0.5em" px="1em">
-                      {item.quantity}
-                    </Typography>
-                    <Button
-                      size="small"
-                      onClick={() => toggleCartItemQuantity(item._id, "inc")}
-                      sx={{ color: "green" }}
-                    >
-                      <AddIcon />
-                    </Button>
-                  </Stack>
+                  <QuantityInput
+                    onDecreaseQty={() =>
+                      toggleCartItemQuantity(item._id, "dec")
+                    }
+                    onIncreaseQty={() =>
+                      toggleCartItemQuantity(item._id, "inc")
+                    }
+                  >
+                    {item.quantity}
+                  </QuantityInput>
                   <Button
                     sx={{ width: "max-content", justifyContent: "flex-start" }}
                     onClick={() => onRemove(item)}
@@ -134,12 +126,6 @@ const ShoppingCart = () => {
                     Remove from cart
                   </Button>
                 </Stack>
-                <QuantityInput
-                  onDecreaseQty={() => toggleCartItemQuantity(item._id, "dec")}
-                  onIncreaseQty={() => toggleCartItemQuantity(item._id, "inc")}
-                >
-                  {item.quantity}
-                </QuantityInput>
               </Stack>
             );
           })}
