@@ -53,8 +53,8 @@ const useStateProvider = () => {
 
     // if item already exists in the cart, update the quantity and total price
     if (checkProductInCart) {
-      setTotalPrice((prevTotalPrice) =>
-        prevTotalPrice + product.price * quantity
+      setTotalPrice(
+        (prevTotalPrice) => prevTotalPrice + product.price * quantity
       );
       setTotalQuantities((prevTotalQty) => prevTotalQty + quantity);
       const updatedCartItems = cartItems.map((cartProduct) => {
@@ -70,8 +70,8 @@ const useStateProvider = () => {
       toast.success(`${qty} ${product.name} added to the cart.`);
     } else {
       product.quantity = quantity;
-      setTotalPrice((prevTotalPrice) =>
-        prevTotalPrice + product.price * quantity
+      setTotalPrice(
+        (prevTotalPrice) => prevTotalPrice + product.price * quantity
       );
       setTotalQuantities((prevTotalQty) => prevTotalQty + quantity);
       const updatedCart = [...cartItems, { ...product }];
@@ -91,9 +91,7 @@ const useStateProvider = () => {
   const onRemove = (product) => {
     let foundProduct = cartItems.find((item) => item._id === product._id);
     const newCartItems = cartItems.filter((item) => item._id !== product._id);
-    setTotalPrice((prev) =>
-      prev - foundProduct.price * foundProduct.quantity
-    );
+    setTotalPrice((prev) => prev - foundProduct.price * foundProduct.quantity);
     setTotalQuantities((prev) => prev - foundProduct.quantity);
     setCartItems(newCartItems);
     setLocalStorageCart(newCartItems);
@@ -115,10 +113,16 @@ const useStateProvider = () => {
       setTotalPrice((prev) => prev + foundProduct.price);
       setTotalQuantities((prev) => prev + 1);
     } else if (action === "dec") {
-      const updatedCart = [
-        ...newCartItems,
-        { ...foundProduct, quantity: foundProduct.quantity - 1 },
-      ];
+      const itemQty = foundProduct.quantity - 1;
+      let updatedCart;
+      if (itemQty < 1) {
+        updatedCart = newCartItems;
+      } else {
+        updatedCart = [
+          ...newCartItems,
+          { ...foundProduct, quantity: foundProduct.quantity - 1 },
+        ];
+      }
       setCartItems(updatedCart);
       setLocalStorageCart(updatedCart);
       setTotalPrice((prev) => prev - foundProduct.price);
