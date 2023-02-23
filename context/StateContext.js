@@ -125,7 +125,9 @@ const useStateProvider = () => {
       }
       setCartItems(updatedCart);
       setLocalStorageCart(updatedCart);
-      setTotalPrice((prev) => prev - foundProduct.price);
+      setTotalPrice((prev) => {
+        return prev - foundProduct.price < 0 ? 0 : prev - foundProduct.price;
+      });
       setTotalQuantities((prev) => prev - 1);
     }
   };
