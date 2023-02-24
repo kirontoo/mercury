@@ -100,15 +100,15 @@ const useStateProvider = () => {
   };
 
   const toggleCartItemQuantity = (id, action) => {
-    // TODO: fix items going out of order
-    let foundProduct = cartItems.find((item) => id === item._id);
     let index = cartItems.findIndex((p) => p._id === id);
+    let foundProduct = cartItems[index];
     const newCartItems = cartItems.filter((item) => id !== item._id);
 
     if (action === "inc") {
       const updatedCart = [
-        ...newCartItems,
+        ...newCartItems.slice(0, index),
         { ...foundProduct, quantity: foundProduct.quantity + 1 },
+        ...newCartItems.slice(index),
       ];
       setCartItems(updatedCart);
       setLocalStorageCart(updatedCart);
@@ -121,8 +121,9 @@ const useStateProvider = () => {
         updatedCart = newCartItems;
       } else {
         updatedCart = [
-          ...newCartItems,
+          ...newCartItems.slice(0, index),
           { ...foundProduct, quantity: foundProduct.quantity - 1 },
+          ...newCartItems.slice(index),
         ];
       }
       setCartItems(updatedCart);
