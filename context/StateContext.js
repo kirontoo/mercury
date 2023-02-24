@@ -64,7 +64,9 @@ const useStateProvider = () => {
             quantity: cartProduct.quantity + quantity,
           };
         }
+        return { ...cartProduct };
       });
+
       setCartItems(updatedCartItems);
       setLocalStorageCart(updatedCartItems);
       toast.success(`${qty} ${product.name} added to the cart.`);
